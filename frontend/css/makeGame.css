@@ -1,5 +1,14 @@
+#word_list {
+  padding-bottom: 30px;
+}
+
 .word_list-row {
   display: flex;
   justify-content: start;
   align-items: center;
+}
+
+#alert-message {
+  font-size: 20px;
+  color: red;
 }

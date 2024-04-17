@@ -22,4 +22,15 @@
 
 
 - 게임을 만드는 페이지인 Word Search Maker의 html와 css를 조금 추가한 정적페이지를 만들었습니다.
+- word search maker에서 단어를 저장할 db인, word-search-game 생성하였습니다.
+
+
+makeGame.js
+
+handleSubmit()
+-form에서 submit이벤트가 일어나면 실행되는 함수
+
+checkWordLength()
+-단어가 10개 미만이 입력되면 error처리로직을 추가하였습니다.
+
 
