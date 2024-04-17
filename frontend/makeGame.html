@@ -10,11 +10,11 @@
     <form id="form-block">
       <div id="title">
         <label for="title">Title</label>
-        <input type="text" id="title" name="title" />
+        <input type="text" id="title" name="title" required />
       </div>
       <div id="description">
         <label for="description">description</label>
-        <input type="text" id="description" name="description" />
+        <input type="text" id="description" name="description" required />
       </div>
       <div id="word_list">
         <label for="word_list">Word List</label>
@@ -128,11 +128,21 @@
       <!-- <div id="alert-message"></div> -->
       <div id="subject">
         <div class="personal">
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            name="check"
+            id="personal"
+            onclick="checkOnlyOne(this)"
+          />
           <span>Myself, family, friend etc</span>
         </div>
         <div class="unpersonal">
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            name="check"
+            id="unpersonal"
+            onclick="checkOnlyOne(this)"
+          />
           <span>Non-Personal(recommend)</span>
         </div>
       </div>
