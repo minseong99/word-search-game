@@ -29,6 +29,9 @@ makeGame.js
 
 handleSubmit()
 -form에서 submit이벤트가 일어나면 실행되는 함수
+checkOnlyOne()
+-checkbox가 하나만 체크가 되도록 하는 함수
+
 
 checkWordLength()
 -단어가 10개 미만이 입력되면 error처리로직을 추가하였습니다.

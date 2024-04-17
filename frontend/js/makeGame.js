@@ -15,9 +15,6 @@ const handleSubmit = (event) => {
   event.preventDefault();
   const formData = new FormData(form);
   const words = formData.getAll("word");
-  // check : on
-  // no check : nul;
-  const check = formData.get("personal");
 
   // filtering
   result = words.filter((word) => word.length > 0);
