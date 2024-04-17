@@ -1,0 +1,5 @@
+.word_list-row {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
