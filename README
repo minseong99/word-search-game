@@ -32,6 +32,8 @@ handleSubmit()
 checkOnlyOne()
 -checkbox가 하나만 체크가 되도록 하는 함수
 
+findSubject()
+-checkbox의 내용을 얻는 함수
 
 checkWordLength()
 -단어가 10개 미만이 입력되면 error처리로직을 추가하였습니다.
