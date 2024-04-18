@@ -1,3 +1,5 @@
+
+https://supercoding.notion.site/_-8e196a70179f4fc886d894c3e0ee6197
 ## <프로젝트 요구사항>
 
 - README에 개발정보를 요약한다.
@@ -25,7 +27,7 @@
 - word search maker에서 단어를 저장할 db인, word-search-game 생성하였습니다.
 
 
-makeGame.js
+static/js/index.js
 
 handleSubmit()
 -form에서 submit이벤트가 일어나면 실행되는 함수
@@ -39,3 +41,22 @@ checkWordLength()
 -단어가 10개 미만이 입력되면 error처리로직을 추가하였습니다.
 
 
+python/makeAnswer
+
+make_words_answer()
+-단어의 정답을 만드는 함수 
+
+set_words_location
+-단어의 정답 위치를 지정하는 함수 
+
+dfs_right 
+-단어가 오른쪽으로 정렬될때 오류검출을 위해 깊이우선탐색을 한후 
+값을 채워 넣는다.
+
+dfs_down
+-단어가 아래로 정렬될때 오류검출을 위해 깊이우선탐색을 한후 
+값을 채워 넣는다.
+
+dfs_right_down
+-단어가 오른쪽 아래로 정렬될때 오류검출을 위해 깊이우선탐색을 한후 
+값을 채워 넣는다.
