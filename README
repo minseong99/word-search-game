@@ -44,7 +44,8 @@ checkWordLength()
 python/makeAnswer
 
 make_words_answer()
--단어의 정답을 만드는 함수 
+-단어의 정답을 만들어 단어와 처음 위치와 방향을 넣은 배열을 
+리턴하는 함수 
 
 set_words_location
 -단어의 정답 위치를 지정하는 함수 
@@ -60,3 +61,20 @@ dfs_down
 dfs_right_down
 -단어가 오른쪽 아래로 정렬될때 오류검출을 위해 깊이우선탐색을 한후 
 값을 채워 넣는다.
+
+
+python/sql
+
+insert_word_location 
+-단어의 정보(단어, 위치등)을 words테이블에 저장하는 함수 
+
+insert_game_info
+-게임의 정보를 games테이블에 저장하는 함수 
+
+
+
+main.py 
+
+POST -> create_game 
+-POST요청이 오면 게임 정보를 받아서 db에 저장한다  => create과정!
+
