@@ -8,8 +8,15 @@ const completeBoard = () => {
   for (let i = 0; i < row; i++) {
     for (let j = 0; j < col; j++) {
       const dataKey = i.toString() + j.toString();
-      const block = document.querySelector(`.board-col[data-key='${dataKey}']`);
-      //   console.log(block.innerText);
+      let block = document.querySelector(`.board-col[data-key='${dataKey}']`);
+      if (
+        i.toString() === "11" &&
+        (j.toString() === "0" || j.toString() === "1")
+      ) {
+        block = document.getElementById(`${dataKey}`);
+        console.log(block);
+      }
+
       if (block.innerText === "") {
         block.innerText = Alpha[Math.floor(Math.random() * Alpha.length)];
       }
@@ -23,9 +30,13 @@ const displayBoard = (word, startRow, startCol, direction) => {
   for (let i = 0; i < word.length; i++) {
     const dataKey = row.toString() + col.toString();
 
-    const targetDiv = document.querySelector(
-      `.board-col[data-key='${dataKey}']`
-    );
+    let targetDiv = document.querySelector(`.board-col[data-key='${dataKey}']`);
+    if (
+      row.toString() === "11" &&
+      (col.toString() === "0" || col.toString() === "1")
+    ) {
+      targetDiv = document.getElementById(`${dataKey}`);
+    }
 
     targetDiv.innerText = word[i];
     targetDiv.style = "";
@@ -94,9 +105,12 @@ const handleMouseDown = (event) => {
   const handleMouseMove = (event) => {
     if (dataKey !== event.target.dataset.key) {
       dataKey = event.target.dataset.key;
-
+      console.log(event.target.id);
       word += event.target.innerText;
-      const block = document.querySelector(`.board-col[data-key='${dataKey}']`);
+      let block = document.querySelector(`.board-col[data-key='${dataKey}']`);
+      if (event.target.id === "110" || event.target.id === "111") {
+        block = document.getElementById(`${dataKey}`);
+      }
 
       block.style.background = "aqua";
       blocks.push(block);
