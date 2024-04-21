@@ -1,0 +1,28 @@
+.game-into {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.game-board {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.board-row {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.board-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid black;
+}
