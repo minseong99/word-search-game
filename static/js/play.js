@@ -1,5 +1,21 @@
 let answerCnt = 0;
 let currectCnt = 0;
+const Alpha = "abcdefghijklmnopqrstuvwxyz";
+const row = 14;
+const col = 12;
+
+const completeBoard = () => {
+  for (let i = 0; i < row; i++) {
+    for (let j = 0; j < col; j++) {
+      const dataKey = i.toString() + j.toString();
+      const block = document.querySelector(`.board-col[data-key='${dataKey}']`);
+      //   console.log(block.innerText);
+      if (block.innerText === "") {
+        block.innerText = Alpha[Math.floor(Math.random() * Alpha.length)];
+      }
+    }
+  }
+};
 
 const displayBoard = (word, startRow, startCol, direction) => {
   let row = startRow;
@@ -50,6 +66,7 @@ const displayGame = (data) => {
     displayWord(word);
     displayBoard(word, startRow, startCol, direction);
   });
+  completeBoard();
 };
 
 const fetchGame = async () => {
@@ -63,6 +80,7 @@ const handleDragEvent = (event) => {
   console.log(event.target);
 };
 
+//mouse down
 const handleMouseDown = (event) => {
   let word = "";
   let dataKey = "";
@@ -72,15 +90,16 @@ const handleMouseDown = (event) => {
       block.style.background = "white";
     });
   };
+  //mouse move
   const handleMouseMove = (event) => {
     if (dataKey !== event.target.dataset.key) {
       dataKey = event.target.dataset.key;
+
       word += event.target.innerText;
       const block = document.querySelector(`.board-col[data-key='${dataKey}']`);
+
       block.style.background = "aqua";
       blocks.push(block);
-      //   console.log(block);
-      //   console.log(blocks);
     }
   };
 
