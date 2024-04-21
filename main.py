@@ -25,12 +25,13 @@ def create_game(game_info:Game):
     
     return "200"
 
-# @app.get("/game")
-# def get_game_info():
-#     game_info_obj = read_game_info()
-#     game_words_obj = read_game_word()
-#     print(game_info_obj)
-#     print(game_words_obj)            
+@app.get("/game")
+def get_game_info():
+    game_info_obj = read_game_info()
+    
+    
+    return JSONResponse(jsonable_encoder(game_info_obj))
+               
     
 
 

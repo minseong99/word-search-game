@@ -37,21 +37,13 @@ def read_game_info():
     cur = con.cursor()
     
     rows = cur.execute(f"""
-                       SELECT * FROM games
+                       SELECT * FROM games 
+                       JOIN words ON games.game_id=words.game_id
                        """).fetchall()
     
-    # print([dict(row) for row in rows])
+    
     return [dict(row) for row in rows]
 
 
-def read_game_word():
-    con.row_factory = sqlite3.Row 
-    cur = con.cursor()
-    
-    rows = cur.execute(f"""
-                       SELECT * FROM words
-                       """).fetchall()
-    
-    return [dict(row) for row in rows]
 
 
