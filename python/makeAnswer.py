@@ -9,6 +9,8 @@ word_answer = []
 
 
 def make_words_answer(word_list:list):
+    global word_answer
+    word_answer = []
     for word in word_list:
         set_words_location(word)
     return word_answer 
