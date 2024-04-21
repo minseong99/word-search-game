@@ -71,10 +71,61 @@ insert_word_location
 insert_game_info
 -게임의 정보를 games테이블에 저장하는 함수 
 
+read_game_info
+-games와 words를 JOIN하여 아이디에 해당하는 게임 정보를 모두 가져온다.
 
+check_answer_db 
+-단어를 받아서 단어가 db에 있는지 확인한다. 
+단어가 db에 없으면 sql문에서 None을 리턴하기 때문에 이것을 이용하여
+None을 리턴하면 없다는 처리를 하고 그 외에 경우에는 있다는 처리를 
+한다.
 
 main.py 
 
-POST -> create_game 
--POST요청이 오면 게임 정보를 받아서 db에 저장한다  => create과정!
+/game POST -> create_game 
+-/game에 대한 POST요청이 오면 게임 정보를 받아서 db에 저장한다  => create과정!
 
+/game GET -> get_game_info
+-/game에 대한 GET요청이 오면 db에서 게임 정보를 받아서 클라이언트에 
+응답한다. 
+
+/answer{단어} GET -> check_answer
+-path로 단어와 함께 answer요청이 오면 단어가 db에 있는지 확인하고 
+그에 맞는 요청을 클라이언트에 보낸다. 
+존재하면 exist를 보내고 존재하지 않으면 noexist를 보낸다. 
+
+
+play.html은 게임을 하는 페이지 이다. 
+
+js/play.js
+
+fetchGame 
+-서버에 /game에 대한 get요청을 보내어 게임정보를 받아서 
+displayGame함수로 game을 페이지에 표현한다.
+
+displayGame 
+-페이지에 game정보를 표현한다. 이때 페이지에 표현하기 위해 
+함수를 displayWord, displayBoard를 사용하였다.
+
+displayWord
+- 정답 단어를 보드 오른쪽에 나타내는 함수 
+
+displayBoard 
+- 정답 단어를 보드에 넣는 함수 
+
+completeBoard
+- 빈칸에 랜덤으로 문자를 넣는다. 
+
+게임 동작 함수 
+handleMouseDown 
+- 마우스가 눌리면 실행되는 함수로 마우스를 움직이는 이벤트를 생성하고 
+드래그가 되도록 동작하는 함수 
+마우스가 눌렸다가 풀리면 서버에 get요청을 하여 정답인지 아닌지 확인한다.
+
+handleMouseMove
+-마우스가 눌렸을때 마우스가 움직이면 실행되는 함수로 마우스에 움직임에 따라 
+칸에 색을 칠하고 word를 갱신한다. 
+
+마우스가 풀리면 /answer{word}에 대한 get요청을 보내서 단어가
+정답인지 확인하고 정답이면 정답단어를 지우고 보드의 색깔을 유지한다.
+정답이 아니면 블럭들을 다시 휜색으로 칠한다.
