@@ -45,5 +45,17 @@ def read_game_info():
     return [dict(row) for row in rows]
 
 
-
+def check_answer_db(word):
+    
+    cur = con.cursor()
+    
+    
+    row = cur.execute(f"""
+                    SELECT * FROM words 
+                    WHERE word='{word}'
+                    """).fetchone()
+    if(row == None):
+        return False   
+    
+    return True
 

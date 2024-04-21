@@ -32,7 +32,14 @@ def get_game_info():
     
     return JSONResponse(jsonable_encoder(game_info_obj))
                
-    
 
+@app.get("/answer{word}")
+def check_answer(word):
+    if(check_answer_db(word)):
+        return "exist"
+    return "noexist"
+
+
+        
 
 app.mount("/",StaticFiles(directory="static", html=True),name="static")
