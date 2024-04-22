@@ -14,7 +14,6 @@ const completeBoard = () => {
         (j.toString() === "0" || j.toString() === "1")
       ) {
         block = document.getElementById(`${dataKey}`);
-        console.log(block);
       }
 
       if (block.innerText === "") {
@@ -87,10 +86,6 @@ const fetchGame = async () => {
   displayGame(jsonRes);
 };
 
-const handleDragEvent = (event) => {
-  console.log(event.target);
-};
-
 //mouse down
 const handleMouseDown = (event) => {
   let word = "";
@@ -103,9 +98,15 @@ const handleMouseDown = (event) => {
   };
   //mouse move
   const handleMouseMove = (event) => {
+    console.log(event.offsetX, event.offsetY);
+    const x = event.offsetX;
+    const y = event.offsetY;
+    //(x - 20)^2 + (y - 20)^2 = 25
+    if (!(Math.pow(x - 20, 2) + Math.pow(y - 20, 2) <= 25)) return;
     if (dataKey !== event.target.dataset.key) {
+      console.log(event.offsetX);
       dataKey = event.target.dataset.key;
-      console.log(event.target.id);
+
       word += event.target.innerText;
       let block = document.querySelector(`.board-col[data-key='${dataKey}']`);
       if (event.target.id === "110" || event.target.id === "111") {
@@ -126,7 +127,7 @@ const handleMouseDown = (event) => {
 
     if (jsonRes === "exist") {
       currectCnt += 1;
-      console.log(currectCnt);
+
       const div = document.querySelector(`.${word}`);
       div.remove();
       if (currectCnt === answerCnt) {
