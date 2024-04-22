@@ -102,7 +102,7 @@ const handleMouseDown = (event) => {
     const x = event.offsetX;
     const y = event.offsetY;
     //(x - 20)^2 + (y - 20)^2 = 25
-    if (!(Math.pow(x - 20, 2) + Math.pow(y - 20, 2) <= 25)) return;
+    if (!(Math.pow(x - 20, 2) + Math.pow(y - 20, 2) <= 49)) return;
     if (dataKey !== event.target.dataset.key) {
       console.log(event.offsetX);
       dataKey = event.target.dataset.key;
