@@ -3,6 +3,7 @@ let currectCnt = 0;
 const Alpha = "abcdefghijklmnopqrstuvwxyz";
 const row = 14;
 const col = 12;
+let timer;
 
 const completeBoard = () => {
   for (let i = 0; i < row; i++) {
@@ -84,6 +85,19 @@ const fetchGame = async () => {
   const jsonRes = await res.json();
 
   displayGame(jsonRes);
+  const startTime = new Date();
+
+  const setTime = () => {
+    const curTime = new Date();
+    const passedTime = new Date(curTime - startTime);
+    const minutes = passedTime.getMinutes().toString().padStart(2, "0");
+    const seconds = passedTime.getSeconds().toString().padStart(2, "0");
+
+    const timer = document.querySelector(".game-info-timer");
+    timer.innerText = `${minutes}:${seconds}`;
+  };
+
+  timer = setInterval(setTime, 1000);
 };
 
 //mouse down
@@ -132,6 +146,7 @@ const handleMouseDown = (event) => {
       div.remove();
       if (currectCnt === answerCnt) {
         alert("Congraturation!!");
+        clearInterval(timer);
         window.location.pathname = "/gameurl.html";
       }
     } else cleanBlockColor();
