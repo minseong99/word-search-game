@@ -3,6 +3,7 @@ let currectCnt = 0;
 const Alpha = "abcdefghijklmnopqrstuvwxyz";
 const row = 14;
 const col = 12;
+let timer;
 
 const completeBoard = () => {
   for (let i = 0; i < row; i++) {
@@ -14,7 +15,6 @@ const completeBoard = () => {
         (j.toString() === "0" || j.toString() === "1")
       ) {
         block = document.getElementById(`${dataKey}`);
-        console.log(block);
       }
 
       if (block.innerText === "") {
@@ -85,10 +85,19 @@ const fetchGame = async () => {
   const jsonRes = await res.json();
 
   displayGame(jsonRes);
-};
+  const startTime = new Date();
 
-const handleDragEvent = (event) => {
-  console.log(event.target);
+  const setTime = () => {
+    const curTime = new Date();
+    const passedTime = new Date(curTime - startTime);
+    const minutes = passedTime.getMinutes().toString().padStart(2, "0");
+    const seconds = passedTime.getSeconds().toString().padStart(2, "0");
+
+    const timer = document.querySelector(".game-info-timer");
+    timer.innerText = `${minutes}:${seconds}`;
+  };
+
+  timer = setInterval(setTime, 1000);
 };
 
 //mouse down
@@ -103,9 +112,15 @@ const handleMouseDown = (event) => {
   };
   //mouse move
   const handleMouseMove = (event) => {
+    console.log(event.offsetX, event.offsetY);
+    const x = event.offsetX;
+    const y = event.offsetY;
+    //(x - 20)^2 + (y - 20)^2 = 25
+    if (!(Math.pow(x - 20, 2) + Math.pow(y - 20, 2) <= 49)) return;
     if (dataKey !== event.target.dataset.key) {
+      console.log(event.offsetX);
       dataKey = event.target.dataset.key;
-      console.log(event.target.id);
+
       word += event.target.innerText;
       let block = document.querySelector(`.board-col[data-key='${dataKey}']`);
       if (event.target.id === "110" || event.target.id === "111") {
@@ -126,11 +141,12 @@ const handleMouseDown = (event) => {
 
     if (jsonRes === "exist") {
       currectCnt += 1;
-      console.log(currectCnt);
+
       const div = document.querySelector(`.${word}`);
       div.remove();
       if (currectCnt === answerCnt) {
         alert("Congraturation!!");
+        clearInterval(timer);
         window.location.pathname = "/gameurl.html";
       }
     } else cleanBlockColor();
@@ -140,13 +156,46 @@ const handleMouseDown = (event) => {
   };
 };
 
-fetchGame();
+const checkInput = () => {
+  const input = document.querySelector("#input-user-name");
+  if (input.value.length > 1) {
+    const body = document.querySelector("body");
+    const targetDiv = document.querySelector(".start");
+    body.removeChild(targetDiv);
+    board.addEventListener("mousedown", handleMouseDown);
+    //브라우저 자체적으로 이미지나 요소에 대한 드래그 앤 드롭을
+    //지원하기 때문에 브라우저에서 제공하는 기능이 자동 실행되어
+    //작성한 코드와 충돌하여 이것을 막기 위해 false로 설정
+    board.ondragstart = function () {
+      return false;
+    };
+    fetchGame();
+  }
+};
+
+const inputUserNameAndStart = () => {
+  const body = document.querySelector("body");
+  const div = document.createElement("div");
+  div.className = "start";
+  div.style =
+    "position:fixed; top:30%; left:40%; width:400px; height:100px; background-color:red";
+
+  const input = document.createElement("input");
+  input.placeholder = "input name!";
+  input.type = "text";
+  input.id = "input-user-name";
+  input.style = "width:80%; height:20%;";
+
+  const button = document.createElement("button");
+  button.innerText = "start";
+  button.addEventListener("click", checkInput);
+  button.style = "width:40%; height:20%;";
+
+  div.appendChild(input);
+  div.appendChild(button);
+  body.appendChild(div);
+};
+
+inputUserNameAndStart();
 
 const board = document.querySelector(".board");
-board.addEventListener("mousedown", handleMouseDown);
-//브라우저 자체적으로 이미지나 요소에 대한 드래그 앤 드롭을
-//지원하기 때문에 브라우저에서 제공하는 기능이 자동 실행되어
-//작성한 코드와 충돌하여 이것을 막기 위해 false로 설정
-board.ondragstart = function () {
-  return false;
-};

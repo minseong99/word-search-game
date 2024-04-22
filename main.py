@@ -37,9 +37,9 @@ def get_game_info():
 def check_answer(word):
     if(check_answer_db(word)):
         return "exist"
-    return "noexist"
+    return "noexist"   
 
 
-        
+
 
 app.mount("/",StaticFiles(directory="static", html=True),name="static")

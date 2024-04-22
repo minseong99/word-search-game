@@ -38,7 +38,9 @@ const requestMakeGame = async (title, description, wordList, subject) => {
       subject,
     }),
   });
-  if (res.status === 200) window.location.pathname = "/gameurl.html";
+  if (res.status === 200) {
+    window.location.pathname = "/gameurl.html";
+  }
 };
 
 const handleSubmit = (event) => {
