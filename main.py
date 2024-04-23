@@ -14,13 +14,20 @@ class Game(BaseModel):
     description:str
     wordList:list
     subject:str
+
+class User_score(BaseModel):
+    name:str
+    score:str
+    time:int
+    title:str
 app = FastAPI()
 
 #create
 @app.post("/game")
 def create_game(game_info:Game):
     word_answers = make_words_answer(game_info.wordList)
-    print(word_answers)
+    create_table(game_info.title);
+    
     url = f"""http://127.0.0.1:8000/play/{game_info.title}"""
     insert_game_info(game_info.title, game_info.title, game_info.description,game_info.subject, url)
     for word_info in word_answers:
@@ -57,11 +64,13 @@ async def websocket_endpoint(websocket: WebSocket):
     while True:
         data = await websocket.receive_text()
         dict_data = json.loads(data)
-        print(data)
-        print(type(data))
-        print(dict_data["total"])
+        
         await websocket.send_text(data)
         
-        
+@app.post("/score")
+def update_score(user_score:User_score):
+    print(user_score) 
+    #update in db 
+    update_score_in_db(user_score)       
 
 app.mount("/",StaticFiles(directory="static", html=True),name="static")

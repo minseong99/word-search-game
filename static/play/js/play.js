@@ -186,6 +186,22 @@ const handleMouseDown = (event) => {
       const div = document.querySelector(`.${word}`);
       div.remove();
       if (currectCnt === answerCnt) {
+        const currentTime = new Date();
+        const passedTime = new Date(currentTime - startTime);
+        const title = pathname.split("/")[2];
+        const res = await fetch("/score", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: userName,
+            score: total.toString(),
+            time: passedTime.getTime(),
+            title,
+          }),
+        });
+
         alert("Congraturation!!");
         clearInterval(timer);
         window.location.pathname = "/gameurl.html";

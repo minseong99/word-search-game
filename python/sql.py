@@ -60,3 +60,31 @@ def check_answer_db(word):
     
     return True
 
+def create_table(title):
+    
+    cur = con.cursor()
+    
+    cur.execute(f"""
+                CREATE TABLE '{title}'(
+                    name TEXT PRIMARY KEY, 
+                    score TEXT,
+                    complete_time INTEGER
+                )
+                """)
+    con.commit()
+    
+
+def update_score_in_db(user_score):
+    name = user_score.name
+    score = user_score.score
+    time = user_score.time 
+    table = user_score.title 
+    
+    cur = con.cursor()
+    
+    cur.execute(f"""
+                INSERT OR REPLACE INTO '{table}'(name, score, complete_time)
+                VALUES ('{name}', '{score}', {time})
+                """)
+    con.commit()
+    print("update success")
