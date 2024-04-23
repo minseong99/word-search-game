@@ -1,7 +1,7 @@
 import sqlite3 
 
 #db처리를 하다가 여러 처리가 오면 lock이 걸려서 timeout을 설정 
-con = sqlite3.connect("word-search.db", check_same_thread=False,timeout=10)
+con = sqlite3.connect("word-search.db", check_same_thread=False,timeout=20)
 cur = con.cursor()
 
 
@@ -18,20 +18,20 @@ def insert_word_location(game_id, word, start_row, start_col, direction):
     return 
 
 
-def insert_game_info(game_id, title, description, subject):
+def insert_game_info(game_id, title, description, subject, url):
     
     cur = con.cursor()
     #id는 나중에 실제 사용자 id로 바꿀것임 
     cur.execute(f"""
-                INSERT INTO games(game_id, title, description, subject)
-                VALUES ('{game_id}','{title}', '{description}', '{subject}')
+                INSERT INTO games(game_id, title, description, subject, url)
+                VALUES ('{game_id}','{title}', '{description}', '{subject}', '{url}')
                 """)
     
     con.commit()
     print("games_success")
     return
 
-def read_game_info():
+def read_game_info(title):
     con.row_factory = sqlite3.Row
     
     cur = con.cursor()
@@ -39,6 +39,7 @@ def read_game_info():
     rows = cur.execute(f"""
                        SELECT * FROM games 
                        JOIN words ON games.game_id=words.game_id
+                       WHERE title='{title}'
                        """).fetchall()
     
     

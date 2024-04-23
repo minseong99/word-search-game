@@ -81,7 +81,10 @@ const displayGame = (data) => {
 };
 
 const fetchGame = async () => {
-  const res = await fetch("/game");
+  const pathName = window.location.pathname;
+  console.log(pathName);
+  console.log(typeof pathName);
+  const res = await fetch(`/game${pathName}`);
   const jsonRes = await res.json();
 
   displayGame(jsonRes);

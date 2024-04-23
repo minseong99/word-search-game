@@ -38,7 +38,9 @@ const requestMakeGame = async (title, description, wordList, subject) => {
       subject,
     }),
   });
+  const jsonRes = await res.json();
   if (res.status === 200) {
+    localStorage.setItem("url", jsonRes);
     window.location.pathname = "/gameurl.html";
   }
 };
