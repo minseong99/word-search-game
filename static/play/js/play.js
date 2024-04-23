@@ -105,8 +105,6 @@ const displayGame = (data) => {
 
 const fetchGame = async (input) => {
   const pathName = window.location.pathname;
-  console.log(pathName);
-  console.log(typeof pathName);
   const res = await fetch(`/game${pathName}`);
   const jsonRes = await res.json();
 
@@ -124,13 +122,23 @@ const fetchGame = async (input) => {
   };
 
   timer = setInterval(setTime, 1000);
-  // const makeScoreBoard = async (input) => {
-  //   const name = input;
-  //   const res = await fetch("/score");
-  //   const jsonRes = await json();
-  //   console.log(jsonRes);
-  // };
-  // makeScoreBoard(input);
+  const makeScoreBoard = async () => {
+    const title = pathname.split("/")[2];
+    const scoreDiv = document.querySelector(".score");
+    const res = await fetch(`/score${title}`);
+    const jsonRes = await res.json();
+    jsonRes.forEach((obj) => {
+      const name = obj.name;
+      const score = obj.score;
+      const time = obj.complete_time;
+
+      const div = document.createElement("div");
+      div.innerText = `name:${name}  score:${score}  time:${time}`;
+
+      scoreDiv.appendChild(div);
+    });
+  };
+  makeScoreBoard();
 };
 
 //mouse down

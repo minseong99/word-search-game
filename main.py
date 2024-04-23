@@ -7,7 +7,7 @@ from python.makeAnswer import make_words_answer
 from python.sql import *
 from python.html import *
 from fastapi.responses import HTMLResponse
-import json
+
 
 class Game(BaseModel):
     title:str
@@ -39,10 +39,10 @@ def create_game(game_info:Game):
 @app.get("/game/play/{title}")
 def get_game_info(title):
     
-    print(title)
+    
     game_info_obj = read_game_info(title)
     
-    print(game_info_obj)
+    
     return JSONResponse(jsonable_encoder(game_info_obj))
     
                
@@ -63,7 +63,7 @@ async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     while True:
         data = await websocket.receive_text()
-        dict_data = json.loads(data)
+        
         
         await websocket.send_text(data)
         
@@ -71,6 +71,12 @@ async def websocket_endpoint(websocket: WebSocket):
 def update_score(user_score:User_score):
     print(user_score) 
     #update in db 
-    update_score_in_db(user_score)       
+    update_score_in_db(user_score)   
+    
+@app.get("/score{title}")
+def read_score(title):
+    
+    user_score_obj = get_score_in_db(title)
+    return JSONResponse(jsonable_encoder(user_score_obj))
 
 app.mount("/",StaticFiles(directory="static", html=True),name="static")

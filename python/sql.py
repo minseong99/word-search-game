@@ -28,7 +28,7 @@ def insert_game_info(game_id, title, description, subject, url):
                 """)
     
     con.commit()
-    print("games_success")
+   
     return
 
 def read_game_info(title):
@@ -87,4 +87,15 @@ def update_score_in_db(user_score):
                 VALUES ('{name}', '{score}', {time})
                 """)
     con.commit()
-    print("update success")
+    
+    
+def get_score_in_db(title):
+    con.row_factory = sqlite3.Row
+    
+    cur = con.cursor()
+    
+    scores = cur.execute(f"""
+                        SELECT * FROM '{title}'
+                        """).fetchall()
+    
+    return [dict(row) for row in scores] 
