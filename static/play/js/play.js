@@ -4,6 +4,29 @@ const Alpha = "abcdefghijklmnopqrstuvwxyz";
 const row = 14;
 const col = 12;
 let timer;
+let startTime;
+
+let total = 0;
+const pathname = window.location.pathname;
+let userName;
+const ws = new WebSocket("ws://localhost:8000/ws");
+ws.onmessage = async function (event) {
+  const scoreData = JSON.parse(event.data);
+  const name = scoreData.userName;
+  const total = scoreData.total;
+
+  const score = document.querySelector(".score");
+
+  if (score.lastChild !== null) {
+    if (score.lastChild.className === "soket-score") {
+      score.removeChild(score.lastChild);
+    }
+  }
+  const div = document.createElement("div");
+  div.innerText = `name: ${name}   score:${total} `;
+  div.className = "soket-score";
+  score.appendChild(div);
+};
 
 const completeBoard = () => {
   for (let i = 0; i < row; i++) {
@@ -77,15 +100,16 @@ const displayGame = (data) => {
     displayWord(word);
     displayBoard(word, startRow, startCol, direction);
   });
-  completeBoard();
+  // completeBoard();
 };
 
-const fetchGame = async () => {
-  const res = await fetch("/game");
+const fetchGame = async (input) => {
+  const pathName = window.location.pathname;
+  const res = await fetch(`/game${pathName}`);
   const jsonRes = await res.json();
 
   displayGame(jsonRes);
-  const startTime = new Date();
+  startTime = new Date();
 
   const setTime = () => {
     const curTime = new Date();
@@ -98,6 +122,23 @@ const fetchGame = async () => {
   };
 
   timer = setInterval(setTime, 1000);
+  const makeScoreBoard = async () => {
+    const title = pathname.split("/")[2];
+    const scoreDiv = document.querySelector(".score");
+    const res = await fetch(`/score${title}`);
+    const jsonRes = await res.json();
+    jsonRes.forEach((obj) => {
+      const name = obj.name;
+      const score = obj.score;
+      const time = obj.complete_time;
+
+      const div = document.createElement("div");
+      div.innerText = `name:${name}  score:${score}  time:${time}`;
+
+      scoreDiv.appendChild(div);
+    });
+  };
+  makeScoreBoard();
 };
 
 //mouse down
@@ -140,11 +181,35 @@ const handleMouseDown = (event) => {
     const jsonRes = await res.json();
 
     if (jsonRes === "exist") {
+      const tableName = pathname.split("/")[2];
       currectCnt += 1;
+      total += 100;
+      const messageObj = {
+        tableName: tableName,
+        userName: userName,
+        total: total,
+      };
+      ws.send(JSON.stringify(messageObj));
 
       const div = document.querySelector(`.${word}`);
       div.remove();
       if (currectCnt === answerCnt) {
+        const currentTime = new Date();
+        const passedTime = new Date(currentTime - startTime);
+        const title = pathname.split("/")[2];
+        const res = await fetch("/score", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: userName,
+            score: total.toString(),
+            time: passedTime.getTime(),
+            title,
+          }),
+        });
+
         alert("Congraturation!!");
         clearInterval(timer);
         window.location.pathname = "/gameurl.html";
@@ -159,6 +224,7 @@ const handleMouseDown = (event) => {
 const checkInput = () => {
   const input = document.querySelector("#input-user-name");
   if (input.value.length > 1) {
+    userName = input.value;
     const body = document.querySelector("body");
     const targetDiv = document.querySelector(".start");
     body.removeChild(targetDiv);

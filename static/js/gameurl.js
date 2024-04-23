@@ -1,12 +1,14 @@
-const displayURL = () => {
-  const url = `http://127.0.0.1:8000/play.html`;
+const url = localStorage.getItem("url");
 
+const url2 = new URL(url);
+
+const displayURL = () => {
   const playURL = document.querySelector("#play");
   playURL.innerText = url;
 };
 
 const moveToPlay = () => {
-  window.location.pathname = `/play.html`;
+  window.location.href = url2;
 };
 
 displayURL();
