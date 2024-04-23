@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket
 from fastapi.staticfiles import StaticFiles
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -7,6 +7,7 @@ from python.makeAnswer import make_words_answer
 from python.sql import *
 from python.html import *
 from fastapi.responses import HTMLResponse
+import json
 
 class Game(BaseModel):
     title:str
@@ -49,5 +50,18 @@ def check_answer(word):
 @app.get("/play/{title}")
 def get_page():
     return HTMLResponse(html);
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        data = await websocket.receive_text()
+        dict_data = json.loads(data)
+        print(data)
+        print(type(data))
+        print(dict_data["total"])
+        await websocket.send_text(data)
+        
+        
 
 app.mount("/",StaticFiles(directory="static", html=True),name="static")

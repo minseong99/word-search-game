@@ -219,6 +219,7 @@ html ="""
           <div class="board-col" data-key="1311"></div>
         </div>
       </div>
+      <div class="score"></div>
     </div>
 
     <script src="js/play.js"></script>
