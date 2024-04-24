@@ -127,13 +127,18 @@ const fetchGame = async (input) => {
     const scoreDiv = document.querySelector(".score");
     const res = await fetch(`/score${title}`);
     const jsonRes = await res.json();
+    let order = 0;
     jsonRes.forEach((obj) => {
       const name = obj.name;
       const score = obj.score;
       const time = obj.complete_time;
-
+      const score_time = new Date(time);
+      const minutes = score_time.getMinutes().toString().padStart(2, "0");
+      const seconds = score_time.getSeconds().toString().padStart(2, "0");
       const div = document.createElement("div");
-      div.innerText = `name:${name}  score:${score}  time:${time}`;
+      div.innerText = `name:${name}  score:${score}  time: ${minutes}:${seconds}`;
+      if (order < 3) div.style.color = "red";
+      order += 1;
 
       scoreDiv.appendChild(div);
     });
@@ -204,7 +209,7 @@ const handleMouseDown = (event) => {
           },
           body: JSON.stringify({
             name: userName,
-            score: total.toString(),
+            score: total,
             time: passedTime.getTime(),
             title,
           }),

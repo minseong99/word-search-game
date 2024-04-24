@@ -1,4 +1,4 @@
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI, WebSocket, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -7,7 +7,7 @@ from python.makeAnswer import make_words_answer
 from python.sql import *
 from python.html import *
 from fastapi.responses import HTMLResponse
-
+from typing import Annotated
 
 class Game(BaseModel):
     title:str
@@ -17,16 +17,17 @@ class Game(BaseModel):
 
 class User_score(BaseModel):
     name:str
-    score:str
+    score:int
     time:int
     title:str
+    
+
 app = FastAPI()
 
 #create
 @app.post("/game")
 def create_game(game_info:Game):
     word_answers = make_words_answer(game_info.wordList)
-    create_table(game_info.title);
     
     url = f"""http://127.0.0.1:8000/play/{game_info.title}"""
     insert_game_info(game_info.title, game_info.title, game_info.description,game_info.subject, url)
@@ -78,5 +79,14 @@ def read_score(title):
     
     user_score_obj = get_score_in_db(title)
     return JSONResponse(jsonable_encoder(user_score_obj))
+
+
+@app.post("/signup")
+def create_user(id:Annotated[str, Form()],
+                password:Annotated[str, Form()],
+                name: Annotated[str, Form()]):
+    
+    create_user_in_db(id, password, name)
+    
 
 app.mount("/",StaticFiles(directory="static", html=True),name="static")

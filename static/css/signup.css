@@ -1,0 +1,9 @@
+.password-error {
+  width: 150px;
+  background-color: red;
+}
+
+.signup-complete {
+  width: 150px;
+  background-color: aqua;
+}
