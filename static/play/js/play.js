@@ -204,7 +204,7 @@ const handleMouseDown = (event) => {
           },
           body: JSON.stringify({
             name: userName,
-            score: total.toString(),
+            score: total,
             time: passedTime.getTime(),
             title,
           }),

@@ -17,7 +17,7 @@ class Game(BaseModel):
 
 class User_score(BaseModel):
     name:str
-    score:str
+    score:int
     time:int
     title:str
 app = FastAPI()
@@ -26,7 +26,6 @@ app = FastAPI()
 @app.post("/game")
 def create_game(game_info:Game):
     word_answers = make_words_answer(game_info.wordList)
-    create_table(game_info.title);
     
     url = f"""http://127.0.0.1:8000/play/{game_info.title}"""
     insert_game_info(game_info.title, game_info.title, game_info.description,game_info.subject, url)

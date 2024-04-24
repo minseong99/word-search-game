@@ -60,31 +60,19 @@ def check_answer_db(word):
     
     return True
 
-def create_table(title):
-    
-    cur = con.cursor()
-    
-    cur.execute(f"""
-                CREATE TABLE '{title}'(
-                    name TEXT PRIMARY KEY, 
-                    score TEXT,
-                    complete_time INTEGER
-                )
-                """)
-    con.commit()
     
 
 def update_score_in_db(user_score):
     name = user_score.name
     score = user_score.score
-    time = user_score.time 
-    table = user_score.title 
+    complete_time = user_score.time 
+    title = user_score.title 
     
     cur = con.cursor()
     
     cur.execute(f"""
-                INSERT OR REPLACE INTO '{table}'(name, score, complete_time)
-                VALUES ('{name}', '{score}', {time})
+                INSERT OR REPLACE INTO user_score(title, name, score, complete_time)
+                VALUES ('{title}', '{name}', {score}, {complete_time})
                 """)
     con.commit()
     
@@ -95,7 +83,8 @@ def get_score_in_db(title):
     cur = con.cursor()
     
     scores = cur.execute(f"""
-                        SELECT * FROM '{title}'
+                        SELECT * FROM user_score
+                        WHERE title='{title}'
                         """).fetchall()
     
     return [dict(row) for row in scores] 
