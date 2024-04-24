@@ -89,3 +89,14 @@ def get_score_in_db(title):
                         """).fetchall()
     
     return [dict(row) for row in scores] 
+
+
+def create_user_in_db(id, password, name):
+    cur = con.cursor()
+    
+    cur.execute(f"""
+                INSERT INTO user(id, password, name)
+                VALUES ('{id}', '{password}', '{name}')
+                """)
+    con.commit()
+    

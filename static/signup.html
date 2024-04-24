@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="css/signup.css" />
+  </head>
+  <body>
+    <form action="/signup" id="form-signup">
+      <div class="form-id">
+        <label for="id">id</label>
+        <input
+          type="text"
+          id="id"
+          name="id"
+          placeholder="input the id!"
+          required
+        />
+      </div>
+      <div class="form-password">
+        <label for="password">password</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="input the password!"
+          name="password"
+          required
+        />
+      </div>
+      <div class="password2">
+        <label for="password2">password check</label>
+        <input
+          type="password"
+          id="password2"
+          name="password2"
+          placeholder="input the password for check!"
+          required
+        />
+      </div>
+      <div class="name">
+        <label for="name">name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="input the name!"
+          required
+        />
+      </div>
+      <button type="submit">submit</button>
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+    <script src="js/signup.js"></script>
+  </body>
+</html>
