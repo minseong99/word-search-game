@@ -85,6 +85,7 @@ def get_score_in_db(title):
     scores = cur.execute(f"""
                         SELECT * FROM user_score
                         WHERE title='{title}'
+                        ORDER BY complete_time ASC
                         """).fetchall()
     
     return [dict(row) for row in scores] 
