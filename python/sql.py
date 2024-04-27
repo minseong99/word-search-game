@@ -1,7 +1,7 @@
 import sqlite3 
 
 #db처리를 하다가 여러 처리가 오면 lock이 걸려서 timeout을 설정 
-con = sqlite3.connect("word-search.db", check_same_thread=False,timeout=20)
+con = sqlite3.connect("word-search.db", check_same_thread=False,timeout=30)
 cur = con.cursor()
 
 
@@ -129,3 +129,11 @@ def find_id_by_token(refresh_token):
                       """).fetchone()
     return dict(row)["id"]
     
+    
+def delete_refresh_token(refresh_token):
+    cur = con.cursor()
+    cur.execute(f"""
+                DELETE FROM tokens 
+                WHERE refresh_token='{refresh_token}'
+                """)
+    con.commit()

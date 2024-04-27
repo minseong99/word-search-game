@@ -33,6 +33,7 @@ const handleSubmit = async (event) => {
     div.innerText = "회원가입에 성공하였습니다.";
     div.classList.add("signup-complete");
     form.appendChild(div);
+    window.location.pathname = "/login.html";
   }
 };
 

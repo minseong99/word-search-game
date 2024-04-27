@@ -55,13 +55,13 @@ def login(id:Annotated[str, Form()],
             "id":user["id"],
             "name":user["name"]
         }
-    },expires=timedelta(seconds=30))
+    },expires=timedelta(seconds=10))
     
     refresh_token = manager.create_access_token(data={
         "sub":{
             "message":"this is refresh token!"
         }
-    },expires=timedelta(minutes=10))
+    },expires=timedelta(minutes=2))
     
     update_refresh_token_db(user["id"], refresh_token)
     
@@ -140,7 +140,7 @@ def get_access_token(user):
             "id":user["id"],
             "name":user["name"]
         }
-    }, expires=timedelta(seconds=30))
+    }, expires=timedelta(seconds=10))
     return access_token
 
 @app.get("/token/{token}")
@@ -151,6 +151,9 @@ def create_access_token(token):
         user = query_user(id)
         access_token = get_access_token(user)
     except:
+        #refresh토큰 유효하지 않으면 db에서 삭제 
+        delete_refresh_token(token)
+        
         raise InvalidCredentialsException
     
     return {"access_token":access_token}
