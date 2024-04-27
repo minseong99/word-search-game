@@ -29,6 +29,11 @@ const handleSubmit = async (event) => {
     form.appendChild(div);
   }
 };
+const moveToSignup = () => {
+  window.location.pathname = "/signup.html";
+};
 
 const form = document.querySelector(".form-login");
 form.addEventListener("submit", handleSubmit);
+const button = document.querySelector("#moveToSignUp");
+button.addEventListener("click", moveToSignup);
