@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <form action="/login" method="POST" class="form-login">
+      <div>
+        <label for="id">id</label>
+        <input type="text" id="id" name="id" required />
+      </div>
+      <div>
+        <label for="password">password</label>
+        <input type="password" id="password" name="password" required />
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+    <script src="js/login.js"></script>
+  </body>
+</html>

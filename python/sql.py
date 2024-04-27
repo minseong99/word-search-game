@@ -99,4 +99,13 @@ def create_user_in_db(id, password, name):
                 VALUES ('{id}', '{password}', '{name}')
                 """)
     con.commit()
-    
+ 
+ 
+def find_user(where_statement):
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()  
+    user = cur.execute(f"""
+                       SELECT * FROM user
+                       WHERE {where_statement}
+                       """).fetchone()
+    return user

@@ -8,7 +8,11 @@ from python.sql import *
 from python.html import *
 from fastapi.responses import HTMLResponse
 from typing import Annotated
+from fastapi_login import LoginManager
+from fastapi_login.exceptions import InvalidCredentialsException
 
+SECRET = "super"
+manager = LoginManager(SECRET, "/login")
 class Game(BaseModel):
     title:str
     description:str
@@ -87,6 +91,36 @@ def create_user(id:Annotated[str, Form()],
                 name: Annotated[str, Form()]):
     
     create_user_in_db(id, password, name)
+
+
+@manager.user_loader()
+def query_user(data):
+    
+    WHERE_STATEMENT = f'id="{data}"'
+    if type(data) == dict:
+        WHERE_STATEMENT = f'id="{data["id"]}"'
+    print(WHERE_STATEMENT)   
+      
+    return find_user(WHERE_STATEMENT)
+         
+@app.post("/login")
+def login(id:Annotated[str, Form()],
+               password:Annotated[str, Form()]):
+    
+    user = query_user(id)
+    print(user)
+    
+    if not user:
+        raise InvalidCredentialsException
+    elif user["password"] != password:
+        raise InvalidCredentialsException
+    
+    
+    
+    
+        
+        
+    
     
 
 app.mount("/",StaticFiles(directory="static", html=True),name="static")
