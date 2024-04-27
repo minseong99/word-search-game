@@ -109,3 +109,23 @@ def find_user(where_statement):
                        WHERE {where_statement}
                        """).fetchone()
     return user
+
+def update_refresh_token_db(id, refresh_token):
+    
+    cur = con.cursor()
+    cur.execute(f"""
+                INSERT OR REPLACE into tokens(id, refresh_token)
+                VALUES ('{id}', '{refresh_token}')
+                """)
+    con.commit()
+    
+def find_id_by_token(refresh_token):
+    con.row_factory = sqlite3.Row;
+    cur = con.cursor()
+    
+    row = cur.execute(f"""
+                      SELECT id FROM tokens 
+                      WHERE refresh_token='{refresh_token}'
+                      """).fetchone()
+    return dict(row)["id"]
+    

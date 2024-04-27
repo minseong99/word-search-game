@@ -26,10 +26,13 @@ const checkWordLength = (result) => {
 };
 
 const requestMakeGame = async (title, description, wordList, subject) => {
+  let access_token = window.localStorage.getItem("access_token");
+  const refresh_token = window.localStorage.getItem("refresh_token");
   const res = await fetch("/game", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${access_token}`,
     },
     body: JSON.stringify({
       title,
@@ -42,6 +45,14 @@ const requestMakeGame = async (title, description, wordList, subject) => {
   if (res.status === 200) {
     localStorage.setItem("url", jsonRes);
     window.location.pathname = "/gameurl.html";
+  } else if (res.status === 401) {
+    alert("refresh_token이 만료되었습니다.");
+    const refreshRes = await fetch(`/token/${refresh_token}`);
+    if (refreshRes.status === 401) window.location.pathname = "/login.html";
+    const data = await refreshRes.json();
+    access_token = data.access_token;
+    window.localStorage.setItem("access_token", access_token);
+    window.location.pathname = "/";
   }
 };
 

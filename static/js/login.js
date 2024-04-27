@@ -15,6 +15,11 @@ const handleSubmit = async (event) => {
     div.innerText = "로그인에 성공하였습니다.";
     div.style.background = "aqua";
     form.appendChild(div);
+    const access_token = resJson.access_token;
+    const refresh_token = resJson.refresh_token;
+    window.localStorage.setItem("access_token", access_token);
+    window.localStorage.setItem("refresh_token", refresh_token);
+    window.location.pathname = "/";
   } else {
     if (alert) form.removeChild(alert);
     const div = document.createElement("div");
